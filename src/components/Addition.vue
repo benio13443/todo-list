@@ -1,4 +1,4 @@
-<template>
+<template v-show="addShow">
   <div class="items-part">
     <form v-on:submit.prevent>
       <input type="text" v-model="newItem.title">
@@ -15,6 +15,7 @@
         <option value="3">3</option>
       </select>
       <button v-on:click="addItem">create</button>
+      <button v-on:click="addCancel">cancel</button>
       <!-- value属性値は、初期入力値となる。
           時間入力欄のvalue属性値は、hh:mm:ssの形式で入力する -->
     </form>
@@ -44,10 +45,13 @@
           priority: "",
         },
         items: [],
-        show: true
+        addShow: false
       }
     },
     methods: {
+      addCancel() {
+        this.addShow = false
+      },
       triggerEvent() {
         this.$emit('add-event');
       },

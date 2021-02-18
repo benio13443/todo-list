@@ -29,7 +29,7 @@
     },
     methods: {
       addMethod() {
-        this.addShow = !this.addShow
+        this.addShow = true
       }
     },
     watch: {

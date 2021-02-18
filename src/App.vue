@@ -1,36 +1,50 @@
 <template>
   <div id="app">
     <Header></Header>
-    <Home></Home>
     <div class="add-button">
       <button @click="addMethod"><img src="./assets/img/add.png" alt=""></button>
     </div>
     <div class="add-area">
       <Addition v-if="addShow"></Addition>
     </div>
+    <ul>
+      <li v-for="(item, index) in items" v-bind:key="index">
+        {{ item.title }}{{ item.deadLine }}{{ item.expectedTime }}
+        <div v-on:click="deleteItem(index)" class="delete">delete</div>
+      </li>
+      <pre> {{ $data }} </pre>
+    </ul>
   </div>
 </template>
 <script>
   import Header from "./components/Header.vue";
   import Addition from "./components/Addition.vue";
-  import Home from "./components/Home.vue";
   // コンポーネント読み込み
   export default {
     data() {
       return {
+        items: [],
         addShow: false
       }
     },
     components: {
       Header,
-      Addition,
-      Home
+      Addition
       // インポートの時に設定した名前
     },
     methods: {
       addMethod() {
         this.addShow = true
-      }
+      },
+      deleteItem: function (index) {
+        if (confirm('Are you sure?')) {
+          this.items.splice(index, 1);
+          this.setItems();
+        }
+      },
+      setItems() {
+        localStorage.setItem('items', JSON.stringify(this.items));
+      },
     },
     watch: {
       items: function () {

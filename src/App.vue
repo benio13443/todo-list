@@ -8,8 +8,9 @@
       <Addition v-if="addShow"></Addition>
     </div>
     <ul>
-      <li v-for="(item, index) in items" v-bind:key="index">
-        {{ item.title }}{{ item.deadLine }}{{ item.expectedTime }}
+      <!-- <li v-for="(item, index) in items" v-bind:key="index"> -->
+      <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
+        {{ item.title }}{{ item.deadLine }}
         <div v-on:click="deleteItem(index)" class="delete">delete</div>
       </li>
       <pre> {{ $data }} </pre>
@@ -24,7 +25,8 @@
     data() {
       return {
         items: [],
-        addShow: false
+        addShow: false,
+        priority: this.items.$children.deadLine * this.$children.items.importance
       }
     },
     components: {
@@ -39,10 +41,10 @@
       deleteItem: function (index) {
         if (confirm('Are you sure?')) {
           this.items.splice(index, 1);
-          this.setItems();
+          this.saveItems();
         }
       },
-      setItems() {
+      saveItems() {
         localStorage.setItem('items', JSON.stringify(this.items));
       },
     },
@@ -51,7 +53,7 @@
         // itemsの値が変わったときに動く関数
       }
     },
-    mounted: function () {
+    mounted() {
       this.items = JSON.parse(localStorage.getItem('items')) || [];
     },
     computed: {
@@ -59,12 +61,18 @@
         return this.items.filter(function (items) {
           return !items.isDone;
         });
+      },
+      sortedPriorityByValue(){
+        return this.priority.sort(function(a, b){
+          return a.priority - b.prioroty;
+        });
       }
-    },
+    }
   };
 
 </script>
 <style>
+  /* @import リセットCSS パス */
   .add-button {
     position: fixed;
     right: 50px;

@@ -5,11 +5,7 @@
       <label>締め切り時間:
         <input type="date" value="00:00" v-model="newItem.deadLine">
       </label>
-      <label>見積り時間:
-        <input type="time" value="00:00" v-model="newItem.expectedTime">
-      </label>
-      <input type="submit" v-model="newItem.priority">
-      <select name="priority" size="1">
+      <select name="importance" size="1" v-model="newItem.importance">
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -33,8 +29,7 @@
         newItem: {
           title: "",
           deadLine: "",
-          expectedTime: "",
-          priority: "",
+          importance: "",
         },
         addShow: false
       }
@@ -46,16 +41,14 @@
       triggerEvent() {
         this.$emit('add-event');
       },
-      addItem: function () {
+      addItem() {
         var item = {
           title: this.newItem.title,
           deadLine: this.newItem.deadLine,
-          expectedTime: this.newItem.expectedTime,
-          priority: this.newItem.priority,
+          importance: this.newItem.importance,
           isDone: false
         };
         this.$parent.items.push(item);
-        this.setItems();
         this.newItem = '';
         this.$parent.addShow = false
       },

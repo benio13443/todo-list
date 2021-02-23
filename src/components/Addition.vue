@@ -34,6 +34,9 @@
         addShow: false
       }
     },
+    mounted(){
+      this.$emit('addMethod', this.newItem)   
+    },
     methods: {
       addCancel() {
         this.$parent.addShow = false

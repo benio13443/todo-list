@@ -26,7 +26,7 @@
       return {
         items: [],
         addShow: false,
-        priority: this.items.$children.deadLine * this.$children.items.importance
+        priority: this.items.deadLine * this.items.importance
       }
     },
     components: {

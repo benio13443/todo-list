@@ -33,20 +33,28 @@
     },
     created() {
       this.triggerEvent();
-      this.$emit('addItems', this.newItem)
     },
     methods: {
+      diffDeadlineAndToday() {
+        let deadlineArray = this.newItem.deadLine.split('-');
+        let deadline = new Date(deadlineArray[0], deadlineArray[1], deadlineArray[2]);
+        let now = new Date(Date.now());
+        let today = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+        let diff = (deadline - today)/ (24 * 60 * 60 * 1000);
+        return diff;
+      },
       addCancel() {
         this.$parent.addShow = false
       },
       triggerEvent() {
-        this.$emit('add-event');
+        // this.$emit('add-event');
       },
       addItem() {
         var item = {
           title: this.newItem.title,
           deadLine: this.newItem.deadLine,
           importance: this.newItem.importance,
+          priority: this.diffDeadlineAndToday() * importance,
           isDone: false
         };
         this.$parent.items.push(item);
@@ -54,7 +62,8 @@
         this.$parent.addShow = false
       },
     },
-    computed: {},
+    computed: {}
+    // 締め切りと今日の差分
   };
 
 </script>

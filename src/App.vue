@@ -2,19 +2,18 @@
   <div id="app">
     <Header></Header>
     <div class="add-button">
-      <button v-on:addItems="addMethod"><img src="./assets/img/add.png" alt=""></button>
+      <button v-on:click="addMethod"><img src="./assets/img/add.png" alt=""></button>
     </div>
     <div class="add-area">
       <Addition v-if="addShow"></Addition>
     </div>
-    <ul>
-      <!-- <li v-for="(item, index) in items" v-bind:key="index"> -->
+    <!-- <ul>
       <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
         {{ item.title }}{{ item.deadLine }}
         <div v-on:click="deleteItem(index)" class="delete">delete</div>
       </li>
-      <pre> {{ $data }} </pre>
-    </ul>
+    </ul> -->
+    <pre> {{ $data }} </pre>
   </div>
 </template>
 <script>
@@ -25,10 +24,7 @@
     data() {
       return {
         items: [],
-        addShow: false,
-        newItem: {
-          priority: this.newItem.deadLine * this.newItem.importance
-        },
+        addShow: false
       }
     },
     components: {

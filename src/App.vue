@@ -2,7 +2,7 @@
   <div id="app">
     <Header></Header>
     <div class="add-button">
-      <button @click="addMethod"><img src="./assets/img/add.png" alt=""></button>
+      <button v-on:addItems="addMethod"><img src="./assets/img/add.png" alt=""></button>
     </div>
     <div class="add-area">
       <Addition v-if="addShow"></Addition>
@@ -26,7 +26,9 @@
       return {
         items: [],
         addShow: false,
-        priority: this.items.deadLine * this.items.importance
+        newItem: {
+          priority: this.newItem.deadLine * this.newItem.importance
+        },
       }
     },
     components: {
@@ -62,8 +64,8 @@
           return !items.isDone;
         });
       },
-      sortedPriorityByValue(){
-        return this.priority.sort(function(a, b){
+      sortedPriorityByValue() {
+        return this.priority.sort(function (a, b) {
           return a.priority - b.prioroty;
         });
       }

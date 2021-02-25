@@ -21,21 +21,19 @@
   // コンポーネント読み込み
   export default {
     name: 'Addition',
-    created() {
-      this.triggerEvent();
-    },
     data() {
       return {
+        addShow: false,
         newItem: {
           title: "",
           deadLine: "",
-          importance: "",
+          importance: ""
         },
-        addShow: false
       }
     },
-    mounted(){
-      this.$emit('addMethod', this.newItem)   
+    created() {
+      this.triggerEvent();
+      this.$emit('addItems', this.newItem)
     },
     methods: {
       addCancel() {

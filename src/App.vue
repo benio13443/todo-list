@@ -8,8 +8,23 @@
       <Addition v-if="addShow"></Addition>
     </div>
     <div class="items">
+      <h1>完了済みのタスク</h1>
       <ul v-if="items.length">
-        <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
+        <li v-for="(item, index) in narrowDownCompleteItem" v-bind:key="index">
+          <span :class="{ 'isDone':item.isDone }">
+            {{ item.title }}
+          </span>
+          <span>
+            {{ item.deadLine }}
+          </span>
+          <div v-on:click="deleteItem(index)" class="delete">delete</div>
+          <input type="checkbox" v-model="item.isDone">
+        </li>
+      </ul>
+
+      <h1>未完了のタスク</h1>
+      <ul v-if="items.length">
+        <li v-for="(item, index) in narrowDownIncompleteItem" v-bind:key="index">
           <span>
             {{ item.title }}
           </span>
@@ -17,6 +32,7 @@
             {{ item.deadLine }}
           </span>
           <div v-on:click="deleteItem(index)" class="delete">delete</div>
+          <input type="checkbox" v-model="item.isDone">
         </li>
       </ul>
     </div>
@@ -67,6 +83,18 @@
           return !items.isDone;
         });
       },
+      narrowDownIncompleteItem(){
+        return this.items.filter(function(item){
+          return item.isDone == false
+        }
+        )
+      },
+      narrowDownCompleteItem(){
+        return this.items.filter(function(item){
+          return item.isDone == true
+        }
+        )
+      },
       sortedPriorityByValue() {
         return this.items.sort(function (a, b) {
           return a.priority - b.prioroty;
@@ -77,7 +105,7 @@
 
 </script>
 <style>
-  @import "https://unpkg.com/ress/dist/ress.min.css";
+  /* @import "https://unpkg.com/ress/dist/ress.min.css"; */
 
   #app {
     width: 500px;
@@ -110,6 +138,10 @@
 
   .items span {
     display: wrap;
+  }
+
+  .isDone{
+    text-decoration: line-through;
   }
 
 </style>

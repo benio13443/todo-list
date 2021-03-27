@@ -1,6 +1,8 @@
 <template>
   <div class="items-part">
     <form v-on:submit.prevent>
+      <pre>{{ $data }}</pre>
+      <input type="text" v-model="newItem.projectTitle">
       <input type="text" v-model="newItem.title">
       <label>締め切り時間:
         <input type="date" value="00:00" v-model="newItem.deadLine">
@@ -25,6 +27,7 @@
       return {
         addShow: false,
         newItem: {
+          projectTitle: "",
           title: "",
           deadLine: "",
           importance: ""
@@ -51,6 +54,7 @@
       },
       addItem() {
         var item = {
+          projectTitle: this.newItem.projectTitle,
           title: this.newItem.title,
           deadLine: this.newItem.deadLine,
           importance: this.newItem.importance,

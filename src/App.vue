@@ -35,10 +35,12 @@
           <input type="checkbox" v-model="item.isDone">
         </li>
       </ul>
-
+      <!-- <ul v-for="set in sets">
+  <li v-for="n in even(set)">{{ n }}</li>
+</ul> -->
       <h1>並び替え</h1>
       <ul v-if="items.length">
-        <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
+        <li v-for="(item, index) in items.slice().sort((a, b) => a.priority - b.priority)" v-bind:key="index">
           <span :class="{ 'isDone':item.isDone }">
             {{ item.title }}
           </span>
@@ -115,12 +117,6 @@
           return item.isDone == true
         })
       },
-      sortedPriorityByValue() {
-        console.log(this.items);
-        return this.items.sort(function (a, b) {
-          return a.priority - b.prioroty;
-        });
-      }
     }
   };
 
@@ -151,6 +147,7 @@
     background: transparent;
   }
 
+  /* 
   .items ul {
     width: 500px;
     height: 100px;
@@ -163,6 +160,6 @@
 
   .isDone {
     text-decoration: line-through;
-  }
+  } */
 
 </style>

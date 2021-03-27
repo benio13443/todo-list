@@ -47,7 +47,7 @@
         return diff;
       },
       addCancel() {
-        this.$parent.addShow = false
+        this.$parent.addShow = false;
       },
       triggerEvent() {
         // this.$emit('add-event');
@@ -63,7 +63,8 @@
         };
         this.$parent.items.push(item);
         this.newItem = '';
-        this.$parent.addShow = false
+        this.$parent.addShow = false;
+        this.$parent.saveItemsToLocalstorage();
       },
     },
     computed: {}

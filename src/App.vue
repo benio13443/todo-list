@@ -35,6 +35,20 @@
           <input type="checkbox" v-model="item.isDone">
         </li>
       </ul>
+
+      <h1>並び替え</h1>
+      <ul v-if="items.length">
+        <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
+          <span :class="{ 'isDone':item.isDone }">
+            {{ item.title }}
+          </span>
+          <span>
+            {{ item.deadLine }}
+          </span>
+          <div v-on:click="deleteItem(index)" class="delete">delete</div>
+          <input type="checkbox" v-model="item.isDone">
+        </li>
+      </ul>
     </div>
     <pre> {{ $data }} </pre>
   </div>
@@ -60,12 +74,20 @@
         this.addShow = true
       },
       deleteItem: function (index) {
-        if (confirm('Are you sure?')) {
-          this.items.splice(index, 1);
-          this.saveItems();
-        }
+        this.$swal({
+            title: "削除しますか？",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((ok) => {
+            if (ok) {
+              this.items.splice(index, 1);
+              this.saveItemsToLocalstorage();
+            }
+          });
       },
-      saveItems() {
+      saveItemsToLocalstorage() {
         localStorage.setItem('items', JSON.stringify(this.items));
       },
     },
@@ -83,19 +105,18 @@
           return !items.isDone;
         });
       },
-      narrowDownIncompleteItem(){
-        return this.items.filter(function(item){
+      narrowDownIncompleteItem() {
+        return this.items.filter(function (item) {
           return item.isDone == false
-        }
-        )
+        })
       },
-      narrowDownCompleteItem(){
-        return this.items.filter(function(item){
+      narrowDownCompleteItem() {
+        return this.items.filter(function (item) {
           return item.isDone == true
-        }
-        )
+        })
       },
       sortedPriorityByValue() {
+        console.log(this.items);
         return this.items.sort(function (a, b) {
           return a.priority - b.prioroty;
         });
@@ -140,7 +161,7 @@
     display: wrap;
   }
 
-  .isDone{
+  .isDone {
     text-decoration: line-through;
   }
 

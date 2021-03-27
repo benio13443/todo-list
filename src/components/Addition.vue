@@ -54,7 +54,7 @@
           title: this.newItem.title,
           deadLine: this.newItem.deadLine,
           importance: this.newItem.importance,
-          priority: this.diffDeadlineAndToday() * importance,
+          priority: this.diffDeadlineAndToday() * this.newItem.importance,
           isDone: false
         };
         this.$parent.items.push(item);

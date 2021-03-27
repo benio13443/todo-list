@@ -7,12 +7,19 @@
     <div class="add-area">
       <Addition v-if="addShow"></Addition>
     </div>
-    <!-- <ul>
-      <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
-        {{ item.title }}{{ item.deadLine }}
-        <div v-on:click="deleteItem(index)" class="delete">delete</div>
-      </li>
-    </ul> -->
+    <div class="items">
+      <ul v-if="items.length">
+        <li v-for="(item, index) in sortedPriorityByValue" v-bind:key="index">
+          <span>
+            {{ item.title }}
+          </span>
+          <span>
+            {{ item.deadLine }}
+          </span>
+          <div v-on:click="deleteItem(index)" class="delete">delete</div>
+        </li>
+      </ul>
+    </div>
     <pre> {{ $data }} </pre>
   </div>
 </template>
@@ -61,7 +68,7 @@
         });
       },
       sortedPriorityByValue() {
-        return this.priority.sort(function (a, b) {
+        return this.items.sort(function (a, b) {
           return a.priority - b.prioroty;
         });
       }
@@ -70,7 +77,13 @@
 
 </script>
 <style>
-  /* @import リセットCSS パス */
+  @import "https://unpkg.com/ress/dist/ress.min.css";
+
+  #app {
+    width: 500px;
+    text-align: center;
+  }
+
   .add-button {
     position: fixed;
     right: 50px;
@@ -87,6 +100,16 @@
     outline: none;
     /* クリックしたときに表示される枠線を消す */
     background: transparent;
+  }
+
+  .items ul {
+    width: 500px;
+    height: 100px;
+    text-align: center;
+  }
+
+  .items span {
+    display: wrap;
   }
 
 </style>

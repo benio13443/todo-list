@@ -1,44 +1,66 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <ul class="tabMenu">
+      <li @click="isSelect('1')">In Progress</li>
+      <li @click="isSelect('2')">Done</li>
+    </ul>
+    <h3>My Tasks</h3>
     <div class="add-button">
       <button v-on:click="addMethod"><img src="./assets/img/add.png" alt=""></button>
     </div>
-    <div class="add-area">
-      <Addition v-if="addShow"></Addition>
-    </div>
     <div class="items">
-      <h1>完了済みのタスク</h1>
-      <ul v-if="items.length">
-        <li v-for="(item, index) in narrowDownCompleteItem" v-bind:key="index">
-          <span :class="{ 'isDone':item.isDone }">
-            {{ item.title }}
-          </span>
-          <span>
-            {{ item.deadLine }}
-          </span>
-          <div v-on:click="deleteItem(index)" class="delete">delete</div>
-          <input type="checkbox" v-model="item.isDone">
-        </li>
-      </ul>
+      <div v-if="isActive === '1'" :class="{'active': isActive === '1'}">
+        <h3>未完了済みのタスク</h3>
+        <ul v-if="items.length">
+          <li
+            v-for="(item, index) in narrowDownIncompleteItem && narrowDownIncompleteItem.slice().sort((a, b) => a.priority - b.priority)"
+            v-bind:key="index">
+            <span>
+              Project Title:{{ item.projectTitle }}
+            </span>
+            <span>
+              Task Title:{{ item.title }}
+            </span>
+            <span>
+              Dead Line:{{ item.deadLine }}
+            </span>
+            <div class="taskOptions">
+              <div v-on:click="deleteItem(index)" class="delete">delete</div><input type="checkbox"
+                v-model="item.isDone">
+            </div>
+          </li>
+        </ul>
+      </div>
 
-      <h1>未完了のタスク</h1>
-      <ul v-if="items.length">
-        <li v-for="(item, index) in narrowDownIncompleteItem" v-bind:key="index">
-          <span>
-            {{ item.title }}
-          </span>
-          <span>
-            {{ item.deadLine }}
-          </span>
-          <div v-on:click="deleteItem(index)" class="delete">delete</div>
-          <input type="checkbox" v-model="item.isDone">
-        </li>
-      </ul>
-      <!-- <ul v-for="set in sets">
-  <li v-for="n in even(set)">{{ n }}</li>
-</ul> -->
-      <h1>並び替え</h1>
+      <div v-else-if="isActive === '2'" :class="{'active': isActive === '2'}">
+        <h3>完了済みのタスク</h3>
+        <ul v-if="items.length">
+          <li
+            v-for="(item, index) in narrowDownCompleteItem && narrowDownCompleteItem.slice().sort((a, b) => a.priority - b.priority)"
+            v-bind:key="index">
+            <span>
+              Project Title:{{ item.projectTitle }}
+            </span>
+            <span>
+              Task Title:{{ item.title }}
+            </span>
+            <span>
+              Dead Line:{{ item.deadLine }}
+            </span>
+            <div class="taskOptions">
+              <div v-on:click="deleteItem(index)" class="delete">delete</div><input type="checkbox"
+                v-model="item.isDone">
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- モーダルで表示 -->
+      <div class="add-area">
+        <transition name="fade">
+          <Addition v-if="addShow"></Addition>
+        </transition>
+      </div>
+      <!-- <h3>並び替え</h3>
       <ul v-if="items.length">
         <li v-for="(item, index) in items.slice().sort((a, b) => a.priority - b.priority)" v-bind:key="index">
           <span :class="{ 'isDone':item.isDone }">
@@ -50,9 +72,8 @@
           <div v-on:click="deleteItem(index)" class="delete">delete</div>
           <input type="checkbox" v-model="item.isDone">
         </li>
-      </ul>
+      </ul> -->
     </div>
-    <pre> {{ $data }} </pre>
   </div>
 </template>
 <script>
@@ -63,7 +84,8 @@
     data() {
       return {
         items: [],
-        addShow: false
+        addShow: false,
+        isActive: '1'
       }
     },
     components: {
@@ -72,6 +94,9 @@
       // インポートの時に設定した名前
     },
     methods: {
+      isSelect: function (num) {
+        this.isActive = num;
+      },
       addMethod() {
         this.addShow = true
       },
@@ -122,7 +147,7 @@
 
 </script>
 <style>
-  /* @import "https://unpkg.com/ress/dist/ress.min.css"; */
+  @import "https://unpkg.com/ress/dist/ress.min.css";
 
   #app {
     width: 500px;
@@ -139,19 +164,13 @@
 
   .add-button img {
     width: 30px;
-    background-color: aquamarine;
-    border: none;
-    /* 枠線を消す */
-    outline: none;
-    /* クリックしたときに表示される枠線を消す */
-    background: transparent;
   }
 
-  /* 
   .items ul {
     width: 500px;
     height: 100px;
     text-align: center;
+    position: relative;
   }
 
   .items span {
@@ -160,6 +179,34 @@
 
   .isDone {
     text-decoration: line-through;
-  } */
+  }
 
+  .taskOptions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .tabMenu {
+    display: flex;
+    list-style: none;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    will-change: opacity;
+    transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0
+  }
+
+  .add-area{
+    position: fixed;
+    background-color: white;
+    box-shadow: 2px 2px 4px gray;
+    width: 300px;
+  }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div class="items-part">
     <form v-on:submit.prevent>
-      <pre>{{ $data }}</pre>
       <input type="text" v-model="newItem.projectTitle">
       <input type="text" v-model="newItem.title">
       <label>締め切り時間:

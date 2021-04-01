@@ -1,18 +1,27 @@
 <template>
   <div class="items-part">
     <form v-on:submit.prevent>
-      <input type="text" v-model="newItem.projectTitle">
-      <input type="text" v-model="newItem.title">
-      <label>締め切り時間:
+      <label>Project title
+        <input type="text" v-model="newItem.projectTitle">
+      </label>
+      <label>Task
+        <input type="text" v-model="newItem.title">
+      </label>
+      <label>Deadline
         <input type="date" value="00:00" v-model="newItem.deadLine">
       </label>
-      <select name="importance" size="1" v-model="newItem.importance">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
-      <button v-on:click="addItem">create</button>
-      <button v-on:click="addCancel">cancel</button>
+      <label>Priority lebel
+        <select name="importance" size="1" v-model="newItem.importance">
+          <option value='' disabled selected style='display:none;'>Select</option>
+          <option value="1">High</option>
+          <option value="2">Medium</option>
+          <option value="3">Low</option>
+        </select>
+      </label>
+      <div class="buttons">
+        <button v-on:click="addItem">Create</button>
+        <button v-on:click="addCancel">Cancel</button>
+      </div>
       <!-- value属性値は、初期入力値となる。
           時間入力欄のvalue属性値は、hh:mm:ssの形式で入力する -->
     </form>
@@ -42,7 +51,7 @@
         let deadline = new Date(deadlineArray[0], deadlineArray[1], deadlineArray[2]);
         let now = new Date(Date.now());
         let today = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-        let diff = (deadline - today)/ (24 * 60 * 60 * 1000);
+        let diff = (deadline - today) / (24 * 60 * 60 * 1000);
         return diff;
       },
       addCancel() {

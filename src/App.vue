@@ -1,28 +1,27 @@
 <template>
   <div id="app">
     <ul class="tabMenu">
-      <li @click="isSelect('1')">In Progress</li>
+      <li @click="isSelect('1')">To Do</li>
       <li @click="isSelect('2')">Done</li>
     </ul>
-    <h3>My Tasks</h3>
     <div class="add-button">
       <button v-on:click="addMethod"><img src="./assets/img/add.png" alt=""></button>
     </div>
     <div class="items">
       <div v-if="isActive === '1'" :class="{'active': isActive === '1'}">
-        <h3>未完了済みのタスク</h3>
+        <h3>To Do</h3>
         <ul v-if="items.length">
           <li
             v-for="(item, index) in narrowDownIncompleteItem && narrowDownIncompleteItem.slice().sort((a, b) => a.priority - b.priority)"
             v-bind:key="index">
-            <span>
-              Project Title:{{ item.projectTitle }}
+            <span class="project-title">
+              {{ item.projectTitle }}
             </span>
-            <span>
-              Task Title:{{ item.title }}
+            <span class="project-task">
+              {{ item.title }}
             </span>
-            <span>
-              Dead Line:{{ item.deadLine }}
+            <span class="project-deadline">
+              {{ item.deadLine }}
             </span>
             <div class="taskOptions">
               <div v-on:click="deleteItem(index)" class="delete">delete</div><input type="checkbox"
@@ -33,7 +32,7 @@
       </div>
 
       <div v-else-if="isActive === '2'" :class="{'active': isActive === '2'}">
-        <h3>完了済みのタスク</h3>
+        <h3>Done</h3>
         <ul v-if="items.length">
           <li
             v-for="(item, index) in narrowDownCompleteItem && narrowDownCompleteItem.slice().sort((a, b) => a.priority - b.priority)"
@@ -154,23 +153,59 @@
     text-align: center;
   }
 
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background-color: #f9f4ff;
+  }
+
+  .tabMenu {
+    color: white;
+  }
+
+  .tabMenu li {
+    background-color: #b980ff;
+    padding: 10px;
+    border-radius: 30px;
+    margin: 8px;
+    width: 100px;
+    margin: 20px 0 0 20px;
+    font-weight: bold;
+  }
+
+  .tabMenu li:hover {
+    opacity: 0.5;
+  }
+
   .add-button {
     position: fixed;
     right: 50px;
     bottom: 50px;
-    transition: 1s;
-    opacity: 0.7;
+    background-color: #b980ff;
+    padding: 18px;
+    border-radius: 50%;
+  }
+
+  .add-button:hover{
+    opacity: 0.5;
   }
 
   .add-button img {
     width: 30px;
   }
 
-  .items ul {
-    width: 500px;
-    height: 100px;
+  .items li {
+    width: 230px;
+    height: 230px;
+    background-color: white;
     text-align: center;
-    position: relative;
+    padding: 30px;
+    border-radius: 20px;
+    list-style: none;
+    margin: 20px;
   }
 
   .items span {
@@ -203,10 +238,64 @@
     opacity: 0
   }
 
-  .add-area{
-    position: fixed;
+  .items-part {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     background-color: white;
-    box-shadow: 2px 2px 4px gray;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
     width: 300px;
+    height: 350px;
+    padding: 50px;
+    border-radius: 20px;
+    color: white;
   }
+
+  .items-part input,
+  select {
+    border: 0;
+    padding: 5px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    color: #aaa;
+    border: solid 1px #ccc;
+    margin: 0 0 10px;
+  }
+
+  .items-part input {
+    width: 200px;
+  }
+
+  .items-part select {
+    width: 50px;
+  }
+
+  .items-part label {
+    display: block;
+    color: black;
+  }
+
+  .buttons button {
+    font-size: 8px;
+    background-color: #b980ff;
+    padding: 8px;
+    border-radius: 15px;
+    margin: 10px;
+    width: 100%;
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+  .items {
+    display: block;
+  }
+
+  .project-title {
+    font-weight: bold;
+  }
+
 </style>

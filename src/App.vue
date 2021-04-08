@@ -2,8 +2,10 @@
   <div id="app">
     <ul class="tabMenu">
       <li @click="isSelect('1')">To Do</li>
+      <!-- isActive==false -->
       <li @click="isSelect('2')">Done</li>
     </ul>
+    <pre>{{ $data }}</pre>
     <div class="add-button">
       <button v-on:click="addMethod"><img src="./assets/img/add.png" alt=""></button>
     </div>
@@ -24,8 +26,9 @@
               {{ item.deadLine }}
             </span>
             <div class="taskOptions">
-              <div v-on:click="deleteItem(index)" class="delete">delete</div><input type="checkbox"
-                v-model="item.isDone">
+              <div v-on:click="deleteItem(index)" class="delete">delete</div>
+              <!-- <input type="checkbox" v-model="item.isDone"> -->
+              <div v-on:click="item.isDone = !item.isDone" class="isDone">Done</div>
             </div>
           </li>
         </ul>
@@ -47,8 +50,9 @@
               Dead Line:{{ item.deadLine }}
             </span>
             <div class="taskOptions">
-              <div v-on:click="deleteItem(index)" class="delete">delete</div><input type="checkbox"
-                v-model="item.isDone">
+              <div @click="deleteItem(index)" class="delete">delete</div>
+              <!-- <input type="checkbox" v-model="item.isDone"> -->
+              <div @click="item.isDone = !item.isDone" class="isDone">Done</div>
             </div>
           </li>
         </ul>
@@ -84,7 +88,8 @@
       return {
         items: [],
         addShow: false,
-        isActive: '1'
+        isActive: '1',
+        isDone: false
       }
     },
     components: {
@@ -118,9 +123,12 @@
       },
     },
     watch: {
-      items: function () {
+      items(newValue,oldValue){
         // itemsの値が変わったときに動く関数
-      }
+        // dataが変わったときにLSに保存する処理を書く
+        this.saveItemsToLocalstorage();
+    },
+      deep: true
     },
     mounted() {
       this.items = JSON.parse(localStorage.getItem('items')) || [];
@@ -189,7 +197,7 @@
     border-radius: 50%;
   }
 
-  .add-button:hover{
+  .add-button:hover {
     opacity: 0.5;
   }
 
@@ -198,14 +206,14 @@
   }
 
   .items li {
-    width: 230px;
-    height: 230px;
+    width: 450px;
+    height: 100px;
     background-color: white;
     text-align: center;
     padding: 30px;
     border-radius: 20px;
     list-style: none;
-    margin: 20px;
+    margin: 20px auto;
   }
 
   .items span {
@@ -239,9 +247,10 @@
   }
 
   .items-part {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: white;
     -webkit-box-shadow: 0 10px 6px -6px #777;
     -moz-box-shadow: 0 10px 6px -6px #777;

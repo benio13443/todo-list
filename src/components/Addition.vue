@@ -33,7 +33,7 @@
     name: 'Addition',
     data() {
       return {
-        addShow: false,
+        isAdditionalViewShow: false,
         newItem: {
           projectTitle: "",
           title: "",
@@ -55,7 +55,7 @@
         return diff;
       },
       addCancel() {
-        this.$parent.addShow = false;
+        this.$parent.isAdditionalViewShow = false;
       },
       triggerEvent() {
         // this.$emit('add-event');
@@ -71,7 +71,7 @@
         };
         this.$parent.items.push(item);
         this.newItem = '';
-        this.$parent.addShow = false;
+        this.$parent.isAdditionalViewShow = false;
         this.$parent.saveItemsToLocalstorage();
       },
     },

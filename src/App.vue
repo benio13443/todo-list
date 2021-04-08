@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <ul class="tabMenu">
-      <li @click="isSelect('1')">To Do</li>
+      <li @click="isSelect('toDoList')">To Do</li>
       <!-- isActive==false -->
-      <li @click="isSelect('2')">Done</li>
+      <li @click="isSelect('isDoneList')">Done</li>
     </ul>
-    <pre>{{ $data }}</pre>
+
     <div class="add-button">
-      <button v-on:click="addMethod"><img src="./assets/img/add.png" alt=""></button>
+      <button v-on:click="showAdditionalView"><img src="./assets/img/add.png" alt=""></button>
     </div>
     <div class="items">
-      <div v-if="isActive === '1'" :class="{'active': isActive === '1'}">
+      <div v-if="isActive === 'toDoList'" class="toDoList">
         <h3>To Do</h3>
         <ul v-if="items.length">
           <li
@@ -26,33 +26,33 @@
               {{ item.deadLine }}
             </span>
             <div class="taskOptions">
-              <div v-on:click="deleteItem(index)" class="delete">delete</div>
-              <!-- <input type="checkbox" v-model="item.isDone"> -->
-              <div v-on:click="item.isDone = !item.isDone" class="isDone">Done</div>
+              <div v-on:click="deleteItem(index)" class="delete">🗑</div>
+              <input type="checkbox" v-model="item.isDone">
+              <!-- <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div> -->
             </div>
           </li>
         </ul>
       </div>
 
-      <div v-else-if="isActive === '2'" :class="{'active': isActive === '2'}">
+      <div v-else-if="isActive === 'isDoneList'" class="isDoneList">
         <h3>Done</h3>
         <ul v-if="items.length">
           <li
             v-for="(item, index) in narrowDownCompleteItem && narrowDownCompleteItem.slice().sort((a, b) => a.priority - b.priority)"
             v-bind:key="index">
-            <span>
-              Project Title:{{ item.projectTitle }}
+            <span class="project-title">
+              {{ item.projectTitle }}
             </span>
-            <span>
-              Task Title:{{ item.title }}
+            <span class="project-task">
+              {{ item.title }}
             </span>
-            <span>
-              Dead Line:{{ item.deadLine }}
+            <span class="project-deadline">
+              {{ item.deadLine }}
             </span>
             <div class="taskOptions">
-              <div @click="deleteItem(index)" class="delete">delete</div>
-              <!-- <input type="checkbox" v-model="item.isDone"> -->
-              <div @click="item.isDone = !item.isDone" class="isDone">Done</div>
+              <div v-on:click="deleteItem(index)" class="delete">🗑</div>
+              <input type="checkbox" v-model="item.isDone">
+              <!-- <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div> -->
             </div>
           </li>
         </ul>
@@ -60,7 +60,7 @@
       <!-- モーダルで表示 -->
       <div class="add-area">
         <transition name="fade">
-          <Addition v-if="addShow"></Addition>
+          <Addition v-if="isAdditionalViewShow"></Addition>
         </transition>
       </div>
       <!-- <h3>並び替え</h3>
@@ -87,9 +87,9 @@
     data() {
       return {
         items: [],
-        addShow: false,
-        isActive: '1',
-        isDone: false
+        isAdditionalViewShow: false,
+        isActive: 'toDoList',
+        isDone: false,
       }
     },
     components: {
@@ -98,11 +98,11 @@
       // インポートの時に設定した名前
     },
     methods: {
-      isSelect: function (num) {
-        this.isActive = num;
+      isSelect: function (index) {
+        this.isActive = index;
       },
-      addMethod() {
-        this.addShow = true
+      showAdditionalView() {
+        this.isAdditionalViewShow = true
       },
       deleteItem: function (index) {
         this.$swal({
@@ -123,7 +123,7 @@
       },
     },
     watch: {
-      items(newValue,oldValue){
+      items:function(){
         // itemsの値が変わったときに動く関数
         // dataが変わったときにLSに保存する処理を書く
         this.saveItemsToLocalstorage();
@@ -170,11 +170,7 @@
     background-color: #f9f4ff;
   }
 
-  .tabMenu {
-    color: white;
-  }
-
-  .tabMenu li {
+  .tabMenu li:first-child{
     background-color: #b980ff;
     padding: 10px;
     border-radius: 30px;
@@ -182,6 +178,20 @@
     width: 100px;
     margin: 20px 0 0 20px;
     font-weight: bold;
+    color: white;
+  }
+
+  .tabMenu li:last-child{
+    background-color: white;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: b980ff;
+    margin: 8px;
+    width: 100px;
+    margin: 20px 0 0 20px;
+    font-weight: bold;
+    color: #b980ff;
   }
 
   .tabMenu li:hover {
@@ -220,14 +230,11 @@
     display: wrap;
   }
 
-  .isDone {
-    text-decoration: line-through;
-  }
-
   .taskOptions {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 10px;
   }
 
   .tabMenu {
@@ -307,4 +314,8 @@
     font-weight: bold;
   }
 
+  .project-deadline{
+    color: gray;
+    font-size: 10px;
+  }
 </style>

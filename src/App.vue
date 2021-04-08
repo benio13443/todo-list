@@ -134,11 +134,11 @@
       this.items = JSON.parse(localStorage.getItem('items')) || [];
     },
     computed: {
-      remaining: function () {
-        return this.items.filter(function (items) {
-          return !items.isDone;
-        });
-      },
+      // remaining: function () {
+      //   return this.items.filter(function (items) {
+      //     return !items.isDone;
+      //   });
+      // },
       narrowDownIncompleteItem() {
         return this.items.filter(function (item) {
           return item.isDone == false

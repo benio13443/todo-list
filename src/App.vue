@@ -27,7 +27,7 @@
             </span>
             <div class="taskOptions">
               <div v-on:click="deleteItem(index)" class="delete">🗑</div>
-              <input type="checkbox" v-model="item.isDone">
+              <input type="checkbox" v-model="item.isDone" @change="saveItemsToLocalstorage()">
               <!-- <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div> -->
             </div>
           </li>

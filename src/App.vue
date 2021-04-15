@@ -5,9 +5,10 @@
     </div>
     <div class="items">
       <ul class="tabMenu">
-        <li @click="isSelect('toDoList')" :class="{toDoBtn: isSelectToDoBtn}">To Do</li>
-        <li @click="isSelect('isDoneList')" :class="{isDoneBtn: isSelectIsDoneBtn}">Done</li>
+        <li @click="switchTabs(true)" :class="{'activeTab': isActiveIncompleteList}">To Do</li>
+        <li @click="switchTabs(false)" :class="{'activeTab': !isActiveIncompleteList}">Done</li>
       </ul>
+      <!-- ↑リファクタリングする -->
       <div v-if="isActive === 'toDoList'" :class="{toDoList: isShowToDoList}">
         <ul v-if="items.length">
           <li v-for="(item, index) in narrowDownIncompleteItem" v-bind:key="index">
@@ -79,7 +80,8 @@
         isShowToDoList: true,
         isShowIsDoneList: true,
         isSelectToDoBtn: true,
-        isSelectIsDoneBtn: true
+        isSelectIsDoneBtn: true,
+        isActiveIncompleteList: true,
       }
     },
     components: {
@@ -88,6 +90,9 @@
       // インポートの時に設定した名前
     },
     methods: {
+      switchTabs(isClickedIncompleteTab){
+        this.isActiveIncompleteList = isClickedIncompleteTab;
+      },
       updateIsCompleteTodo(todo) {
         todo.isDone = !todo.isDone;
       },
@@ -330,6 +335,10 @@
   .project-deadline {
     color: gray;
     font-size: 10px;
+  }
+
+  .activeTab {
+    background-color: red;
   }
 
 </style>

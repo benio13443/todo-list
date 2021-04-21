@@ -10,7 +10,7 @@
       <label>Deadline
         <input type="date" value="00:00" v-model="newItem.deadLine">
       </label>
-      <label>Priority lebel
+      <label>Priority level
         <select name="importance" size="1" v-model="newItem.importance">
           <option value='' disabled selected style='display:none;'>Select</option>
           <option value="1">High</option>

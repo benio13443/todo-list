@@ -9,7 +9,7 @@
         <li @click="switchTabs(false)" :class="{'activeTab': !isActiveIncompleteList}">Done</li>
       </ul>
       <!-- ↑リファクタリングする -->
-      <div v-if="isActive === 'toDoList'" :class="{toDoList: isShowToDoList}">
+      <div v-if="isActiveIncompleteList" :class="{toDoList: isShowToDoList}">
         <ul v-if="items.length">
           <li v-for="(item, index) in narrowDownIncompleteItem" v-bind:key="index">
             <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div>
@@ -27,7 +27,7 @@
         </ul>
       </div>
 
-      <div v-else-if="isActive === 'isDoneList'" :class="{isDoneList: isShowIsDoneList}">
+      <div v-else :class="{isDoneList: isShowIsDoneList}">
         <ul v-if="items.length">
           <li v-for="(item, index) in narrowDownCompleteItem" v-bind:key="index">
             <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div>
@@ -236,7 +236,7 @@
   .isDoneList li {
     width: 450px;
     height: 100px;
-    background-color: #f9f4ff;
+    background-color: white;
     text-align: center;
     padding: 30px;
     border-radius: 20px;
@@ -337,8 +337,17 @@
     font-size: 10px;
   }
 
-  .activeTab {
-    background-color: red;
+  .tabMenu .activeTab {
+    background-color: white;
+    padding: 9px;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #b980ff;
+    margin: 8px;
+    width: 100px;
+    margin: 20px 0 0 20px;
+    font-weight: bold;
+    color: #b980ff;
   }
 
 </style>

@@ -22,8 +22,6 @@
         <button v-on:click="addItem">Create</button>
         <button v-on:click="addCancel">Cancel</button>
       </div>
-      <!-- value属性値は、初期入力値となる。
-          時間入力欄のvalue属性値は、hh:mm:ssの形式で入力する -->
     </form>
   </div>
 </template>
@@ -78,5 +76,4 @@
     computed: {}
     // 締め切りと今日の差分
   };
-
 </script>

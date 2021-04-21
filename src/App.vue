@@ -8,21 +8,24 @@
         <button @click="switchTabs(true)" :class="{'activeTab': isActiveIncompleteList}">To Do</button>
         <button @click="switchTabs(false)" :class="{'activeTab': !isActiveIncompleteList}">Done</button>
       </div>
-      <!-- ↑リファクタリングする -->
       <div v-if="isActiveIncompleteList" :class="{toDoList: isShowToDoList}">
         <ul v-if="items.length">
           <li v-for="(item, index) in narrowDownIncompleteItem" v-bind:key="index">
-            <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div>
-            <span class="project-title">
-              {{ item.projectTitle }}
-            </span>
-            <span class="project-task">
-              {{ item.title }}
-            </span>
-            <span class="project-deadline">
-              {{ item.deadLine }}
-            </span>
-            <div v-on:click="deleteItem(index)" class="delete">🗑</div>
+            <div>
+              <button v-on:click="item.isDone = !item.isDone" class="isDone">✅</button>
+              <span class="project-task">
+                {{ item.title }}
+              </span>
+            </div>
+            <div>
+              <span class="project-deadline">
+                {{ item.deadLine }}
+              </span>
+              <span class="project-title">
+                {{ item.projectTitle }}
+              </span>
+              <button v-on:click="deleteItem(index)" class="delete">🗑</button>
+            </div>
           </li>
         </ul>
       </div>
@@ -30,39 +33,28 @@
       <div v-else :class="{isDoneList: isShowIsDoneList}">
         <ul v-if="items.length">
           <li v-for="(item, index) in narrowDownCompleteItem" v-bind:key="index">
-            <div v-on:click="item.isDone = !item.isDone" class="isDone">✅</div>
-            <span class="project-title">
-              {{ item.projectTitle }}
-            </span>
-            <span class="project-task">
-              {{ item.title }}
-            </span>
-            <span class="project-deadline">
-              {{ item.deadLine }}
-            </span>
-            <div v-on:click="deleteItem(index)" class="delete">🗑</div>
+            <div>
+              <button v-on:click="item.isDone = !item.isDone" class="isDone">✅</button>
+              <span class="project-task">
+                {{ item.title }}
+              </span>
+            </div>
+            <div>
+              <span class="project-deadline">
+                {{ item.deadLine }}
+              </span>
+              <span class="project-title">
+                {{ item.projectTitle }}
+              </span>
+              <button v-on:click="deleteItem(index)" class="delete">🗑</button>
+            </div>
           </li>
         </ul>
       </div>
       <!-- モーダルで表示 -->
       <div class="add-area">
-        <transition name="fade">
-          <Addition v-if="isAdditionalViewShow"></Addition>
-        </transition>
+        <Addition v-if="isAdditionalViewShow"></Addition>
       </div>
-      <!-- <h3>並び替え</h3>
-      <ul v-if="items.length">
-        <li v-for="(item, index) in items.slice().sort((a, b) => a.priority - b.priority)" v-bind:key="index">
-          <span :class="{ 'isDone':item.isDone }">
-            {{ item.title }}
-          </span>
-          <span>
-            {{ item.deadLine }}
-          </span>
-          <div v-on:click="deleteItem(index)" class="delete">delete</div>
-          <input type="checkbox" v-model="item.isDone">
-        </li>
-      </ul> -->
     </div>
   </div>
 </template>
@@ -90,7 +82,7 @@
       // インポートの時に設定した名前
     },
     methods: {
-      switchTabs(isClickedIncompleteTab){
+      switchTabs(isClickedIncompleteTab) {
         this.isActiveIncompleteList = isClickedIncompleteTab;
       },
       updateIsCompleteTodo(todo) {
@@ -167,11 +159,11 @@
   }
 
   body {
-    background-color: #f9f4ff;
+    background-color: white;
   }
 
   .tabMenu button {
-    background-color: #b980ff;
+    background-color: #845EC2;
     padding: 10px;
     border-radius: 30px;
     margin: 8px;
@@ -187,19 +179,19 @@
     padding: 9px;
     border-radius: 30px;
     border: 1px solid;
-    border-color: #b980ff;
+    border-color: #845EC2;
     margin: 8px;
     width: 100px;
     margin: 20px 0 0 20px;
     font-weight: bold;
-    color: #b980ff;
+    color: #845EC2;
   }
 
-  .add-button button{
+  .add-button button {
     position: fixed;
     right: 50px;
     bottom: 50px;
-    background-color: #b980ff;
+    background-color: #845EC2;
     padding: 18px;
     border-radius: 50%;
   }
@@ -211,40 +203,40 @@
   .add-button img {
     width: 30px;
   }
-  
+
   .isDone {
     cursor: pointer;
     width: 20px;
   }
 
-  .delete{
+  .delete {
     cursor: pointer;
     width: 20px;
   }
-
+  
   .toDoList li {
-    width: 450px;
-    height: 100px;
     background-color: white;
-    text-align: center;
     padding: 30px;
-    border-radius: 20px;
     list-style: none;
     margin: 20px auto;
+    border-top: .1px solid lightgray;
+    border-bottom: .1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
   }
 
   .isDoneList li {
-    width: 450px;
-    height: 100px;
     background-color: white;
-    text-align: center;
     padding: 30px;
-    border-radius: 20px;
     list-style: none;
     margin: 20px auto;
+    border-top: .1px solid lightgray;
+    border-bottom: .1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
   }
 
-  .items span {
+  .items p {
     display: wrap;
   }
 
@@ -258,17 +250,6 @@
   .tabMenu {
     display: flex;
     list-style: none;
-  }
-
- .fade-enter-active,
-  .fade-leave-active {
-    will-change: opacity;
-    transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  }
-
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0
   }
 
   .items-part {
@@ -293,7 +274,6 @@
     padding: 5px;
     font-size: 12px;
     font-family: Arial, sans-serif;
-    color: #aaa;
     border: solid 1px #ccc;
     margin: 0 0 10px;
   }
@@ -304,6 +284,7 @@
 
   .items-part select {
     width: 50px;
+    color: gray;
   }
 
   .items-part label {
@@ -313,7 +294,7 @@
 
   .buttons button {
     font-size: 8px;
-    background-color: #b980ff;
+    background-color: #845EC2;
     padding: 8px;
     border-radius: 15px;
     margin: 10px;
@@ -329,7 +310,11 @@
   }
 
   .project-title {
-    font-weight: bold;
+    font-size: 10px;
+    background: rgba(0, 201, 183, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 30px;
   }
 
   .project-deadline {
@@ -342,12 +327,12 @@
     padding: 9px;
     border-radius: 30px;
     border: 1px solid;
-    border-color: #b980ff;
+    border-color: #845EC2;
     margin: 8px;
     width: 100px;
     margin: 20px 0 0 20px;
     font-weight: bold;
-    color: #b980ff;
+    color: #845EC2;
   }
 
 </style>

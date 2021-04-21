@@ -4,10 +4,10 @@
       <button v-on:click="showAdditionalView"><img src="./assets/img/add.png" alt=""></button>
     </div>
     <div class="items">
-      <ul class="tabMenu">
-        <li @click="switchTabs(true)" :class="{'activeTab': isActiveIncompleteList}">To Do</li>
-        <li @click="switchTabs(false)" :class="{'activeTab': !isActiveIncompleteList}">Done</li>
-      </ul>
+      <div class="tabMenu">
+        <button @click="switchTabs(true)" :class="{'activeTab': isActiveIncompleteList}">To Do</button>
+        <button @click="switchTabs(false)" :class="{'activeTab': !isActiveIncompleteList}">Done</button>
+      </div>
       <!-- ↑リファクタリングする -->
       <div v-if="isActiveIncompleteList" :class="{toDoList: isShowToDoList}">
         <ul v-if="items.length">
@@ -170,7 +170,7 @@
     background-color: #f9f4ff;
   }
 
-  .tabMenu li {
+  .tabMenu button {
     background-color: #b980ff;
     padding: 10px;
     border-radius: 30px;
@@ -182,7 +182,7 @@
     cursor: pointer;
   }
 
-  .tabMenu li:hover {
+  .tabMenu button:hover {
     background-color: white;
     padding: 9px;
     border-radius: 30px;

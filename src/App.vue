@@ -114,8 +114,6 @@
     },
     watch: {
       items: function () {
-        // itemsの値が変わったときに動く関数
-        // dataが変わったときにLSに保存する処理を書く
         this.saveItemsToLocalstorage();
       },
       deep: true
@@ -124,11 +122,6 @@
       this.items = JSON.parse(localStorage.getItem('items')) || [];
     },
     computed: {
-      // remaining: function () {
-      //   return this.items.filter(function (items) {
-      //     return !items.isDone;
-      //   });
-      // },
       narrowDownIncompleteItem() {
         console.log(this.items)
         console.log("並び替え")
@@ -149,7 +142,6 @@
   @import "https://unpkg.com/ress/dist/ress.min.css";
 
   #app {
-    width: 500px;
     text-align: center;
   }
 

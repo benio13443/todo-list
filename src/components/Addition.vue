@@ -59,6 +59,7 @@
         // this.$emit('add-event');
       },
       addItem() {
+        if( this.newItem.title == '' ) return;
         var item = {
           projectTitle: this.newItem.projectTitle,
           title: this.newItem.title,
